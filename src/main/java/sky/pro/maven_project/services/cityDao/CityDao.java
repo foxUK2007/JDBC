@@ -7,5 +7,5 @@ import java.sql.SQLException;
 public interface CityDao {
 
 
-    City readCityById(int id) throws SQLException;
+    City readCityById(int id);
 }

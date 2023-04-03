@@ -1,6 +1,8 @@
 package sky.pro.maven_project.services.employeeDao;
 
-import sky.pro.maven_project.connections.ApplicationConnect;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import sky.pro.maven_project.connections.HibernateSessionFactoryUtil;
 import sky.pro.maven_project.models.Employee;
 import sky.pro.maven_project.services.cityDao.CityDao;
 import sky.pro.maven_project.services.cityDao.CityDaoImpl;
@@ -13,99 +15,59 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    private final ApplicationConnect applicationConnect = new ApplicationConnect();
-
     private final CityDao cityDao = new CityDaoImpl();
 
 
     @Override
-    public void deleteEmployee(int id) throws SQLException {
-
-        try (PreparedStatement statement =
-                     applicationConnect.getPreparedStatement
-                             ("DELETE FROM employee  WHERE id = (?)")) {
-            statement.setInt(1, id);
-            statement.executeQuery();
-
+    public void deleteEmployee(Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(employee);
+            transaction.commit();
         }
     }
 
     @Override
-    public void updateEmployee(int id, String first_name, String last_name, String gender, int age, int sity_id) throws SQLException {
+    public void updateEmployee(Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.update(employee);
+            transaction.commit();
+        }
+    }
 
-        try (PreparedStatement statement =
-                     applicationConnect.getPreparedStatement
-                             ("UPDATE employee SET first_name = ?, last_name = ?, gender = ?, age = ?, sity_id = ? WHERE id = (?)")) {
-            statement.setString(1, first_name);
-            statement.setString(2, last_name);
-            statement.setString(3, gender);
-            statement.setInt(4, age);
-            statement.setInt(5, sity_id);
-            statement.setInt(6, id);
-            statement.executeQuery();
+    @Override
+    public Employee readEmployeeById(int id) {
+        Employee employee = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Employee.class, id);
 
+        if (employee != null) {
+            return employee;
+        } else {
+            throw new RuntimeException("В базе данных такого работника не существует.");
         }
     }
 
 
     @Override
-    public Employee readEmployeeById(int id) throws SQLException {
-        try (PreparedStatement statement =
-                     applicationConnect.getPreparedStatement
-                             ("SELECT * FROM employee WHERE id = (?)")) {
-            statement.setInt(1, id);
-            statement.executeQuery();
-
-            ResultSet resultSet = statement.getResultSet();
-            resultSet.next();
-
-            return new Employee(resultSet.getInt("id"),
-                    resultSet.getString("first_name"),
-                    resultSet.getString("last_name"),
-                    resultSet.getString("gender"),
-                    resultSet.getInt("age"),
-                    cityDao.readCityById(resultSet.getInt("sity_id")));
-
-        }
-
-    }
-
-
-    @Override
-    public void createEmployee(int id, String first_name, String last_name, String gender, int age, int sity_id) throws
-            SQLException {
-
-        try (PreparedStatement statement =
-                     applicationConnect.getPreparedStatement
-                             ("INSERT INTO employee (id, first_name, last_name, gender, age, sity_id) VALUES (?, ?, ?, ?, ?, ?)")) {
-            statement.setInt(1, id);
-            statement.setString(2, first_name);
-            statement.setString(3, last_name);
-            statement.setString(4, gender);
-            statement.setInt(5, age);
-            statement.setInt(6, sity_id);
-            statement.executeQuery();
-
+    public void createEmployee(Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil
+                .getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(employee);
+            transaction.commit();
         }
     }
 
     @Override
-    public List<Employee> allEmployees() throws SQLException {
-        try (PreparedStatement statement =
-                     applicationConnect.getPreparedStatement
-                             ("SELECT * FROM employee;")) {
-            statement.executeQuery();
-            ResultSet resultSet = statement.getResultSet();
-            List<Employee> employees = new ArrayList<>();
-            while (resultSet.next()) {
-                employees.add(new Employee(resultSet.getInt("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getString("gender"),
-                        resultSet.getInt("age"),
-                        cityDao.readCityById(resultSet.getInt("sity_id"))));
+    public List<Employee> allEmployees() {
+
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            List<Employee> employees = session.createQuery("FROM Employee").list();
+            if (!employees.isEmpty()) {
+                return employees;
+            } else {
+                throw new RuntimeException("Список работников в базе данных пуст.");
             }
-            return employees;
         }
     }
 }
