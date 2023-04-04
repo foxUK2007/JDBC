@@ -36,21 +36,21 @@
       <artifactId>postgresql</artifactId>
       <version>42.6.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.11.0</version>
-    </dependency>
-      <dependency>
+         <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
           <version>RELEASE</version>
           <scope>compile</scope>
       </dependency>
-
   </dependencies>
   <build>
     <finalName>Maven_project</finalName>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.11.0</version>
+          </plugin>
+      </plugins>
   </build>
 </project>

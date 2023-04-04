@@ -11,23 +11,23 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
-    private int city_id;
+    private int cityID;
 
     @Column(name = "city_name")
-    private String city_name;
+    private String cityName;
 
-    public City(String city_name) {
-        this.city_name = city_name;
+    public City(String cityName) {
+        this.cityName = cityName;
     }
 
     public City() {
     }
-    public String getCity_name() {
-        return city_name;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCity_name(String city_name) {
-        this.city_name = city_name;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     @Override
@@ -35,16 +35,16 @@ public class City {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return city_id == city.city_id && Objects.equals(city_name, city.city_name);
+        return cityID == city.cityID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(city_id, city_name);
+        return Objects.hash(cityID, cityName);
     }
 
     @Override
     public String toString() {
-        return "Город: " + city_name;
+        return "Город: " + cityName;
     }
 }

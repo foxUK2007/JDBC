@@ -58,7 +58,7 @@ public class Application {
         for (Employee employee : employeeDAO.allEmployees()) {
             System.out.println(employee);
         }
-        Anton.setLast_name("Пучков");
+        Anton.setLastName("Пучков");
         employeeDAO.updateEmployee(Anton);
         employeeDAO.deleteEmployee(Anton);
     }

@@ -22,10 +22,10 @@ public class Employee {
     private int id;
 
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "gender")
     private String gender;
@@ -40,19 +40,19 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return id == employee.id && Objects.equals(first_name, employee.first_name);
+        return id == employee.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, first_name);
+        return Objects.hash(id, firstName);
     }
 
     @Override
     public String toString() {
         return "id: " + id + ", " +
-                "Имя: " + first_name + ", " +
-                "Фамилия: " + last_name + ", " +
+                "Имя: " + firstName + ", " +
+                "Фамилия: " + lastName + ", " +
                 "Пол: " + gender + ", " +
                 "Возраст: " + age;
     }
