@@ -1,5 +1,6 @@
 package sky.pro.maven_project;
 
+import sky.pro.maven_project.models.City;
 import sky.pro.maven_project.models.Employee;
 
 import sky.pro.maven_project.services.cityDao.CityDao;
@@ -50,17 +51,13 @@ public class Application {
 
     public static void main(String[] args) throws SQLException {
 
-        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-
         System.out.println(employeeDAO.readEmployeeById(8));
-        Employee Anton = new Employee(20, "Антон", "Яковлев", "муж", 30, 9);
-        employeeDAO.createEmployee(Anton);
+        Employee Anton = new Employee(20, "Антон", "Яковлев", "муж", 30, new City("Сингапур"));
+
         for (Employee employee : employeeDAO.allEmployees()) {
             System.out.println(employee);
         }
-        Anton.setLastName("Пучков");
-        employeeDAO.updateEmployee(Anton);
-        employeeDAO.deleteEmployee(Anton);
+
     }
 
 

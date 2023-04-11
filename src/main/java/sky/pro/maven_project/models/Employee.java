@@ -1,19 +1,10 @@
 package sky.pro.maven_project.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "employee")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Employee {
 
     @Id
@@ -31,9 +22,71 @@ public class Employee {
     private String gender;
     @Column(name = "age")
     private int age;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
-    @Column(name = "city_id")
-    private int city;
+    public Employee(int id, String firstName, String lastName, String gender, int age, City city) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        this.city = city;
+
+    }
+
+    public Employee() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,6 +107,7 @@ public class Employee {
                 "Имя: " + firstName + ", " +
                 "Фамилия: " + lastName + ", " +
                 "Пол: " + gender + ", " +
-                "Возраст: " + age;
+                "Возраст: " + age + ", " +
+                "Место работы: " + city;
     }
 }

@@ -4,19 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sky.pro.maven_project.connections.HibernateSessionFactoryUtil;
 import sky.pro.maven_project.models.Employee;
-import sky.pro.maven_project.services.cityDao.CityDao;
-import sky.pro.maven_project.services.cityDao.CityDaoImpl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
-
-    private final CityDao cityDao = new CityDaoImpl();
-
 
     @Override
     public void deleteEmployee(Employee employee) {

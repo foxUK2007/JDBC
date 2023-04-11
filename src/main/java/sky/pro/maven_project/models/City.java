@@ -1,6 +1,7 @@
 package sky.pro.maven_project.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,10 @@ public class City {
 
     @Column(name = "city_name")
     private String cityName;
+
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Employee> employee;
 
     public City(String cityName) {
         this.cityName = cityName;
