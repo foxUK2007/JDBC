@@ -6,6 +6,11 @@ import java.sql.SQLException;
 
 public interface CityDao {
 
-
     City readCityById(int id);
+
+    void deleteCity(City city);
+
+    void updateCity(City city);
+
+    void createCity(City city);
 }
